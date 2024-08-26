@@ -2,10 +2,10 @@ package app
 
 import (
 	"errors"
-	"github.com/asdlokj1qpi23/proxypool/config"
-	"github.com/asdlokj1qpi23/proxypool/internal/cache"
-	"github.com/asdlokj1qpi23/proxypool/log"
-	"github.com/asdlokj1qpi23/proxypool/pkg/getter"
+	"github.com/vrichv/proxypool/config"
+	"github.com/vrichv/proxypool/internal/cache"
+	"github.com/vrichv/proxypool/log"
+	"github.com/vrichv/proxypool/pkg/getter"
 	"github.com/ghodss/yaml"
 	"path/filepath"
 )

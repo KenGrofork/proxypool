@@ -1,6 +1,6 @@
 // +heroku goVersion go1.14
 
-module github.com/asdlokj1qpi23/proxypool
+module github.com/vrichv/proxypool
 
 go 1.21
 
@@ -117,7 +117,6 @@ require (
 	github.com/sagernet/sing v0.3.6 // indirect
 	github.com/sagernet/sing-mux v0.2.1-0.20240124034317-9bfb33698bb6 // indirect
 	github.com/sagernet/sing-shadowtls v0.1.4 // indirect
-	github.com/sagernet/tfo-go v0.0.0-20231209031829-7b5343ac1dc6 // indirect
 	github.com/sagernet/utls v1.5.4 // indirect
 	github.com/sagernet/wireguard-go v0.0.0-20231209092712-9a439356a62e // indirect
 	github.com/saintfish/chardet v0.0.0-20230101081208-5e3ef4b5456d // indirect
@@ -157,18 +156,6 @@ require (
 )
 
 require (
-	github.com/ajg/form v1.5.1 // indirect
-	github.com/cilium/ebpf v0.12.3 // indirect
-	github.com/dlclark/regexp2 v1.11.0 // indirect
-	github.com/fsnotify/fsnotify v1.7.0 // indirect
-	github.com/go-chi/chi/v5 v5.0.12 // indirect
-	github.com/go-chi/cors v1.2.1 // indirect
-	github.com/go-chi/render v1.0.3 // indirect
-	github.com/metacubex/sing-tun v0.2.1-0.20240214100323-23e40bfb9067 // indirect
 	github.com/metacubex/tfo-go v0.0.0-20240228025757-be1269474a66 // indirect
-	github.com/sagernet/netlink v0.0.0-20220905062125-8043b4a9aa97 // indirect
 	github.com/sagernet/smux v0.0.0-20231208180855-7041f6ea79e7 // indirect
-	github.com/scjalliance/comshim v0.0.0-20230315213746-5e51f40bd3b9 // indirect
-	github.com/vishvananda/netns v0.0.0-20211101163701-50045581ed74 // indirect
-	go.uber.org/automaxprocs v1.5.3 // indirect
 )

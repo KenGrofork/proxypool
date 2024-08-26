@@ -1,7 +1,7 @@
 package stream
 
 import (
-	"github.com/asdlokj1qpi23/proxypool/pkg/proxy"
+	"github.com/vrichv/proxypool/pkg/proxy"
 	"strings"
 )
 

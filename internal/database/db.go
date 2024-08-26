@@ -3,9 +3,9 @@ package database
 import (
 	"os"
 
-	"github.com/asdlokj1qpi23/proxypool/log"
+	"github.com/vrichv/proxypool/log"
 
-	"github.com/asdlokj1qpi23/proxypool/config"
+	"github.com/vrichv/proxypool/config"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

@@ -5,6 +5,8 @@ import (
 	"regexp"
 	"sort"
 	"strings"
+
+	"github.com/vrichv/proxypool/pkg/geoIp"
 )
 
 type ProxyList []Proxy
@@ -81,8 +83,16 @@ func (ps ProxyList) NameAddCounrty() ProxyList {
 	pattern := "D\\+|Disney|disney|迪士尼|NF|奈飞|解锁|Netflix|NETFLIX|Media|netflix|media"
 	reg := regexp.MustCompile(pattern)
 	for i := 0; i < num; i++ {
-		if !reg.MatchString(ps[i].BaseInfo().Name) {
-			ps[i].SetName(ps[i].BaseInfo().Name + ps[i].BaseInfo().Country)
+		p := ps[i]
+		if p.BaseInfo().Country == "" {
+			_, country, _, err := geoIp.GeoIpDB.Find(p.BaseInfo().Server, false) // IP库不准
+			if err != nil {
+				country = "🏁ZZ"
+			}
+			p.SetCountry(country)
+		}
+		if !reg.MatchString(p.BaseInfo().Name) {
+			p.SetName(p.BaseInfo().Name + p.BaseInfo().Country)
 		}
 	}
 	return ps

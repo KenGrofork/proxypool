@@ -3,8 +3,8 @@ package database
 import (
 	"time"
 
-	"github.com/asdlokj1qpi23/proxypool/log"
-	"github.com/asdlokj1qpi23/proxypool/pkg/proxy"
+	"github.com/vrichv/proxypool/log"
+	"github.com/vrichv/proxypool/pkg/proxy"
 	"gorm.io/gorm"
 )
 

@@ -30,9 +30,9 @@ jobs:
 
       - name: Commit output.txt to the repository
         run: |
-          git config --global user.name 'asdlokj1qpi23'
+          git config --global user.name 'vrichv'
           git config --global user.email 'your-email@example.com'
-          git clone https://github.com/asdlokj1qpi23/nodelist.git
+          git clone https://github.com/vrichv/nodelist.git
           cd nodelist
           git checkout main || git checkout -b main
           cp ../output.txt .
@@ -40,6 +40,6 @@ jobs:
           cp ../allnode.txt .
           git add allnode.txt
           git commit -m "Add node info."
-          git push --force https://x-access-token:${{ secrets.ACCESS_TOKEN }}@github.com/asdlokj1qpi23/nodelist.git main
+          git push --force https://x-access-token:${{ secrets.ACCESS_TOKEN }}@github.com/vrichv/nodelist.git main
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}

@@ -10,19 +10,19 @@ import (
 	"strings"
 	"time"
 
-	"github.com/asdlokj1qpi23/proxypool/log"
+	"github.com/vrichv/proxypool/log"
 	"golang.org/x/exp/slices"
 
-	"github.com/asdlokj1qpi23/proxypool/config"
-	appcache "github.com/asdlokj1qpi23/proxypool/internal/cache"
-	"github.com/asdlokj1qpi23/proxypool/pkg/provider"
+	"github.com/vrichv/proxypool/config"
+	appcache "github.com/vrichv/proxypool/internal/cache"
+	"github.com/vrichv/proxypool/pkg/provider"
 	"github.com/gin-contrib/cache"
 	"github.com/gin-contrib/cache/persistence"
 	"github.com/gin-gonic/gin"
 	_ "github.com/heroku/x/hmetrics/onload"
 )
 
-const version = "v0.7.27"
+const version = "v24.8.26"
 
 var router *gin.Engine
 

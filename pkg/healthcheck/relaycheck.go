@@ -7,13 +7,13 @@ import (
 	"net"
 	"sync"
 
-	"github.com/asdlokj1qpi23/proxypool/log"
-	"github.com/asdlokj1qpi23/proxypool/pkg/proxy"
+	"github.com/vrichv/proxypool/log"
+	"github.com/vrichv/proxypool/pkg/proxy"
 	"github.com/ivpusic/grpool"
 	"github.com/metacubex/mihomo/adapter"
 )
 
-func RelayCheck(proxies proxy.ProxyList) {
+func RelayCheck(proxies []proxy.Proxy)(cproxies []proxy.Proxy)  {
 	numWorker := DelayConn
 	numJob := 1
 	if numWorker > 4 {
@@ -22,59 +22,82 @@ func RelayCheck(proxies proxy.ProxyList) {
 
 	pool := grpool.NewPool(numWorker, numJob)
 	pool.WaitCount(len(proxies))
+	cproxies = make(proxy.ProxyList, 0, 500)
 	m := sync.Mutex{}
 
 	log.Infoln("Relay Test ON")
-	doneCount := 0
-	dcm := sync.Mutex{}
+	//doneCount := 0
+	//dcm := sync.Mutex{}
 	go func() {
 		for _, p := range proxies {
 			pp := p
 			pool.JobQueue <- func() {
 				defer pool.JobDone()
 				out, err := testRelay(pp)
-				if err == nil && out != "" {
-					m.Lock()
-					// Relay or pool
-					if isRelay(pp.BaseInfo().Server, out) {
+				m.Lock()
+				if err != nil {					
+					//测试出错，判定节点异常
+					if ps, ok := ProxyStats.Find(pp); ok {
+						ps.UpdatePSDelay(0)
+					}				
+				}else {
+					cproxies = append(cproxies, pp)
+					if out == "" {
+						//not relay
 						if ps, ok := ProxyStats.Find(pp); ok {
-							ps.UpdatePSOutIp(out)
-							ps.Relay = true
+							ps.UpdatePSOutIp(pp.BaseInfo().Server)
 						} else {
 							ps = &Stat{
 								Id:    pp.Identifier(),
-								Relay: true,
-								OutIp: out,
+								OutIp: pp.BaseInfo().Server,
 							}
 							ProxyStats = append(ProxyStats, *ps)
 						}
-					} else { // is pool ip
-						if ps, ok := ProxyStats.Find(pp); ok {
-							ps.UpdatePSOutIp(out)
-							ps.Pool = true
-						} else {
-							ps = &Stat{
-								Id:    pp.Identifier(),
-								Pool:  true,
-								OutIp: out,
+					}else{
+						// Relay or pool
+						if isRelay(pp.BaseInfo().Server, out) {
+							if ps, ok := ProxyStats.Find(pp); ok {
+								ps.UpdatePSOutIp(out)
+								ps.Relay = true
+							} else {
+								ps = &Stat{
+									Id:    pp.Identifier(),
+									Relay: true,
+									OutIp: out,
+								}
+								ProxyStats = append(ProxyStats, *ps)
 							}
-							ProxyStats = append(ProxyStats, *ps)
+						} else { // is pool ip
+							if ps, ok := ProxyStats.Find(pp); ok {
+								ps.UpdatePSOutIp(out)
+								ps.Pool = true
+							} else {
+								ps = &Stat{
+									Id:    pp.Identifier(),
+									Pool:  true,
+									OutIp: out,
+								}
+								ProxyStats = append(ProxyStats, *ps)
+							}
 						}
-					}
-					m.Unlock()
+						
+					} 					
 				}
-
-				dcm.Lock()
-				doneCount++
-				progress := float64(doneCount) * 100 / float64(len(proxies))
-				fmt.Printf("\r\t[%5.1f%% DONE]", progress)
-				dcm.Unlock()
+				m.Unlock()
+				// dcm.Lock()
+				// doneCount++
+				// progress := (doneCount * 100) / len(proxies)
+				// if progress%20 == 0 && progress > 0 { 
+				// 	fmt.Printf("\r\t[%d%% DONE]", progress)
+				// }
+				// dcm.Unlock()
 			}
 		}
 	}()
 	pool.WaitAll()
 	pool.Release()
 	fmt.Println()
+	return
 }
 
 // Get outbound relay ip

@@ -3,13 +3,13 @@ package cron
 import (
 	"runtime"
 
-	"github.com/asdlokj1qpi23/proxypool/config"
-	"github.com/asdlokj1qpi23/proxypool/internal/cache"
-	"github.com/asdlokj1qpi23/proxypool/log"
-	"github.com/asdlokj1qpi23/proxypool/pkg/healthcheck"
-	"github.com/asdlokj1qpi23/proxypool/pkg/provider"
+	"github.com/vrichv/proxypool/config"
+	"github.com/vrichv/proxypool/internal/cache"
+	"github.com/vrichv/proxypool/log"
+	"github.com/vrichv/proxypool/pkg/healthcheck"
+	"github.com/vrichv/proxypool/pkg/provider"
 
-	"github.com/asdlokj1qpi23/proxypool/internal/app"
+	"github.com/vrichv/proxypool/internal/app"
 	"github.com/jasonlvhit/gocron"
 )
 

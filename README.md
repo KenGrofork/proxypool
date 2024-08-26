@@ -1,8 +1,6 @@
-# Change Log
+# AI Enhanced Version
 
-(Change Log Link)[https://hub.docker.com/r/asdlokj1qpi23/proxypool]
-
-# Features
+## Features
 * Supports multiple types: ss, ssr, vmess, trojan, hysteria2,vless
 * Scrapes from Telegram channels
 * Parses subscription addresses
@@ -14,7 +12,7 @@
 * Provides ss, ssr, vmess, sip002 subscriptions
 * Added streaming media detection feature, supports Netflix and Disney+
 
-# About Streaming Media
+## About Streaming Media
 
 * Supports Netflix and Disney+ streaming media detection.
 
@@ -24,35 +22,13 @@
 
 * Nodes that support Disney+ will have disney_ included in their names.
 
-If you are using Clash, it is recommended to use the [Streaming Media Enhanced Rules](https://github.com/asdlokj1qpi23/subrule/blob/main/netflix_for_node.ini) for better compatibility with streaming services.
+If you are using Clash, it is recommended to use the [Streaming Media Enhanced Rules](https://github.com/vrichv/subrule/blob/main/netflix_for_node.ini) for better compatibility with streaming services.
 
-![Stream](https://github.com/asdlokj1qpi23/proxypool/blob/master/docs/im.png?raw=true)
+![Stream](https://github.com/vrichv/proxypool/blob/master/docs/im.png?raw=true)
 
-## Run
+## Download
 
-### Docker
+[release](https://github.com/vrichv/proxypool/releases)
 
-```shell
-docker run -d --restart=always \
-  --name=proxypool \
-  -p 12580:12580 \
-  -v /path/to/config:/config \
-  asdlokj1qpi23/proxypool \
-  -c /config/config.yaml
-```
-### Docker-compose
-```yaml
-version: '3'
-services:
-  proxypool:
-    image: asdlokj1qpi23/proxypool:latest
-    container_name: proxypool
-    volumes:
-      - /path/to/config:/config
-    ports:
-      - "12580:12580"
-    restart: always
-    command: -c /config/config.yaml
-```
-## Disclaimer
+### Disclaimer
 This project is for educational and reference purposes only. Users are advised to delete it after 24 hours. When using it, please refrain from violating local laws and regulations. It is prohibited to use this project for profit or engage in any other illegal activities. The project is not responsible for any consequences arising from its usage.

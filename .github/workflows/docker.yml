@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  REGISTRY_IMAGE: asdlokj1qpi23/proxypool
+  REGISTRY_IMAGE: vrichv/proxypool
 
 jobs:
   build:

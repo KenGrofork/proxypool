@@ -2,13 +2,13 @@ package main
 
 import (
 	"flag"
-	"github.com/asdlokj1qpi23/proxypool/api"
-	"github.com/asdlokj1qpi23/proxypool/config"
-	"github.com/asdlokj1qpi23/proxypool/internal/app"
-	"github.com/asdlokj1qpi23/proxypool/internal/cron"
-	"github.com/asdlokj1qpi23/proxypool/internal/database"
-	"github.com/asdlokj1qpi23/proxypool/log"
-	"github.com/asdlokj1qpi23/proxypool/pkg/geoIp"
+	"github.com/vrichv/proxypool/api"
+	"github.com/vrichv/proxypool/config"
+	"github.com/vrichv/proxypool/internal/app"
+	"github.com/vrichv/proxypool/internal/cron"
+	"github.com/vrichv/proxypool/internal/database"
+	"github.com/vrichv/proxypool/log"
+	"github.com/vrichv/proxypool/pkg/geoIp"
 	_ "net/http/pprof"
 	"os"
 )

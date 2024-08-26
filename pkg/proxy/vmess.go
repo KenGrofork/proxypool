@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	A "github.com/asdlokj1qpi23/proxypool/pkg/alpn"
+	A "github.com/vrichv/proxypool/pkg/alpn"
 	"math/rand"
 	"net"
 	"net/url"
@@ -13,7 +13,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/asdlokj1qpi23/proxypool/pkg/tool"
+	"github.com/vrichv/proxypool/pkg/tool"
 )
 
 var (

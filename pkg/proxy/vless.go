@@ -3,7 +3,7 @@ package proxy
 import (
 	"encoding/json"
 	"errors"
-	A "github.com/asdlokj1qpi23/proxypool/pkg/alpn"
+	A "github.com/vrichv/proxypool/pkg/alpn"
 	"net"
 	"net/url"
 	"regexp"

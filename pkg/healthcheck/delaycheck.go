@@ -6,9 +6,9 @@ import (
 	"errors"
 	"fmt"
 	"github.com/antchfx/htmlquery"
-	C "github.com/asdlokj1qpi23/proxypool/config"
-	"github.com/asdlokj1qpi23/proxypool/log"
-	"github.com/asdlokj1qpi23/proxypool/pkg/proxy"
+	C "github.com/vrichv/proxypool/config"
+	"github.com/vrichv/proxypool/log"
+	"github.com/vrichv/proxypool/pkg/proxy"
 	"github.com/ivpusic/grpool"
 	"github.com/metacubex/mihomo/adapter"
 	"io"
@@ -38,8 +38,8 @@ func CleanBadProxiesWithGrpool(proxies []proxy.Proxy) (cproxies []proxy.Proxy) {
 	m := sync.Mutex{}
 
 	pool.WaitCount(len(proxies))
-	doneCount := 0
-	dcm := sync.Mutex{}
+	//doneCount := 0
+	//dcm := sync.Mutex{}
 	// 线程：延迟测试，测试过程通过grpool的job并发
 	go func() {
 		for _, p := range proxies {
@@ -69,12 +69,14 @@ func CleanBadProxiesWithGrpool(proxies []proxy.Proxy) (cproxies []proxy.Proxy) {
 					}
 					m.Unlock()
 				}
-				// Progress status
-				dcm.Lock()
-				doneCount++
-				progress := float64(doneCount) * 100 / float64(len(proxies))
-				fmt.Printf("\r\t[%5.1f%% DONE]", progress)
-				dcm.Unlock()
+				// // Progress status
+				// dcm.Lock()
+				// doneCount++
+				// progress := (doneCount * 100) / len(proxies)
+				// if progress%20 == 0 && progress > 0 { 
+				// 	fmt.Printf("\r\t[%d%% DONE]", progress)
+				// }
+				// dcm.Unlock()
 			}
 		}
 	}()

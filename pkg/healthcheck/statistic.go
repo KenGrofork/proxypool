@@ -3,7 +3,7 @@ package healthcheck
 import (
 	"time"
 
-	"github.com/asdlokj1qpi23/proxypool/pkg/proxy"
+	"github.com/vrichv/proxypool/pkg/proxy"
 )
 
 // Statistic for a proxy

@@ -2,22 +2,22 @@ package app
 
 import (
 	"fmt"
-	"github.com/asdlokj1qpi23/proxypool/pkg/geoIp"
-	"github.com/asdlokj1qpi23/proxypool/pkg/healthcheck/stream"
+	"github.com/vrichv/proxypool/pkg/geoIp"
+	"github.com/vrichv/proxypool/pkg/healthcheck/stream"
 	"os"
 	"sync"
 	"time"
 
-	C "github.com/asdlokj1qpi23/proxypool/config"
-	"github.com/asdlokj1qpi23/proxypool/internal/cache"
-	"github.com/asdlokj1qpi23/proxypool/internal/database"
-	"github.com/asdlokj1qpi23/proxypool/log"
-	"github.com/asdlokj1qpi23/proxypool/pkg/healthcheck"
-	"github.com/asdlokj1qpi23/proxypool/pkg/provider"
-	"github.com/asdlokj1qpi23/proxypool/pkg/proxy"
+	C "github.com/vrichv/proxypool/config"
+	"github.com/vrichv/proxypool/internal/cache"
+	"github.com/vrichv/proxypool/internal/database"
+	"github.com/vrichv/proxypool/log"
+	"github.com/vrichv/proxypool/pkg/healthcheck"
+	"github.com/vrichv/proxypool/pkg/provider"
+	"github.com/vrichv/proxypool/pkg/proxy"
 )
 
-var location, _ = time.LoadLocation("Asia/Shanghai")
+//var location, _ = time.LoadLocation("Asia/Shanghai")
 
 func CrawlGo() {
 	wg := &sync.WaitGroup{}
@@ -94,7 +94,7 @@ func CrawlGo() {
 	log.Infoln("VmessProxiesCount: %d", cache.VmessProxiesCount)
 	cache.TrojanProxiesCount = proxies.TypeLen("trojan")
 	log.Infoln("TrojanProxiesCount: %d", cache.TrojanProxiesCount)
-	cache.LastCrawlTime = time.Now().In(location).Format("2006-01-02 15:04:05")
+	cache.LastCrawlTime = time.Now().In(time.FixedZone("UTC+8", 8*60*60)).Format("2006-01-02 15:04:05")
 	cache.Hysteria2ProxiesCount = proxies.TypeLen("hysteria2")
 	log.Infoln("Hysteria2ProxiesCount: %d", cache.Hysteria2ProxiesCount)
 	cache.HysteriaProxiesCount = proxies.TypeLen("hysteria")
@@ -118,16 +118,23 @@ func CrawlGo() {
 	proxies.NameAddCounrty().Sort()
 	log.Infoln("Proxy rename DONE!")
 	// Relay check and rename
-	healthcheck.RelayCheck(proxies)
+	proxies = healthcheck.RelayCheck(proxies)
 	for i := range proxies {
 		if s, ok := healthcheck.ProxyStats.Find(proxies[i]); ok {
-			if s.Relay {
-				_, c, e := geoIp.GeoIpDB.Find(s.OutIp)
-				if e == nil {
-					proxies[i].SetName(fmt.Sprintf("Relay_%s-%s", proxies[i].BaseInfo().Name, c))
+			log.Debugln("ip: %s ,outip: %s,delay:%s",proxies[i].BaseInfo().Server,s.OutIp,s.Delay)
+			_, c, o, e := geoIp.GeoIpDB.Find(s.OutIp, true)
+			if e == nil {
+				nameStr := proxies[i].BaseInfo().Name
+				if proxies[i].BaseInfo().Name == "" {
+					nameStr = proxies[i].BaseInfo().Country
 				}
-			} else if s.Pool {
-				proxies[i].SetName(fmt.Sprintf("Pool_%s", proxies[i].BaseInfo().Name))
+				if s.Relay {
+						proxies[i].SetName(fmt.Sprintf("Relay_%s-%s[%s]", nameStr, c, o))					
+				} else if s.Pool {
+						proxies[i].SetName(fmt.Sprintf("Pool_%s[%s]", nameStr, o))
+				} else {
+						proxies[i].SetName(fmt.Sprintf("%s[%s]", nameStr, o))
+				}
 			}
 		}
 	}

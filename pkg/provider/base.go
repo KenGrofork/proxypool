@@ -7,10 +7,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/asdlokj1qpi23/proxypool/log"
-	"github.com/asdlokj1qpi23/proxypool/pkg/healthcheck"
+	"github.com/vrichv/proxypool/log"
+	"github.com/vrichv/proxypool/pkg/healthcheck"
 
-	"github.com/asdlokj1qpi23/proxypool/pkg/proxy"
+	"github.com/vrichv/proxypool/pkg/proxy"
 )
 
 type Provider interface {

@@ -2,7 +2,7 @@ package proxy
 
 import (
 	"fmt"
-	"github.com/asdlokj1qpi23/proxypool/pkg/tool"
+	"github.com/vrichv/proxypool/pkg/tool"
 	"github.com/ghodss/yaml"
 	"testing"
 )

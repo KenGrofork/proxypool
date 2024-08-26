@@ -3,7 +3,7 @@ package healthcheck
 import (
 	"context"
 	"fmt"
-	"github.com/asdlokj1qpi23/proxypool/pkg/proxy"
+	"github.com/vrichv/proxypool/pkg/proxy"
 	C "github.com/metacubex/mihomo/constant"
 	"io"
 	"net"

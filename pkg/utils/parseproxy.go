@@ -3,7 +3,7 @@ package utils
 import (
 	"encoding/json"
 	"errors"
-	"github.com/asdlokj1qpi23/proxypool/pkg/proxy"
+	"github.com/vrichv/proxypool/pkg/proxy"
 	"github.com/metacubex/mihomo/adapter"
 	C "github.com/metacubex/mihomo/constant"
 )
