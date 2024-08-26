@@ -8,12 +8,53 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-
+	"sync"
 	"github.com/vrichv/proxypool/config"
 	"github.com/oschwald/geoip2-golang"
 )
 
 var GeoIpDB GeoIP
+
+var (
+	shortNames map[string]string
+	once       sync.Once
+)
+
+func initShortNames() {
+	shortNames = map[string]string{
+		"cloudflarenet":                "cf",
+		"amazon-02":                    "amazon",
+		"g-corelabss.a.":                "gcore",
+		"oracle-bmc-31898":             "oracle",
+		"melbikomasuab":                "melbikomas",
+		"akamaiconnectedcloud":         "akamai",
+		"hktlimited":                   "hkt",
+		"feelbsarl":                    "feelb",
+		"datacamplimited":              "datacamp",
+		"starkindustriessolutionsltd":   "stark",
+		"hostkeyb.v.":                  "hostkey",
+		"globalconnectivitysolutionsllp": "globalconn",
+		"aezainternationalltd":          "aeza",
+		"sharktech":                    "shark",
+		"scaleways.a.s.":               "scaleway",
+		"digitalocean-asn":             "do",
+		"as-choopa":                    "choopa",
+		"sondatechs.a.s.":               "sonda",
+		"m247europesrl":                "m247",
+		"as-colocrossing":               "colocross",
+		"scloudpteltd":                 "scloud",
+		"globalinternetsolutionsllc":    "globalinte",
+		"datacommunicationbusinessgroup": "datacomm",
+		"aiyunhknetwork":               "aliyunhk",
+		"kakharovorinbassarmaratuly":    "kakharovor",
+		"hetzneronlinegmbh":            "hetzner",
+		"interhostcommunicationsolutionsltd.": "interhost",
+		"hangzhoualibabaadvertisingco.,ltd.": "aliyun",
+		"chinaunicomchina169backbone":     "cn-unicom",
+		"chinamobilecommunicationsgroupco.,ltd.": "cmcc-sg",
+		"hgcglobalcommunicationslimited":   "hgc",
+	}
+}
 
 func InitGeoIpDB() error {
 	parentPath := config.ResourceRoot()
@@ -119,11 +160,29 @@ func (g GeoIP) Find(ipORdomain string, isGetAsn bool) (ip, country, asnOrg strin
 		if err != nil {
 			asnOrg = "" 
 		} else {
-			asnOrg = strings.ReplaceAll(asnRecord.AutonomousSystemOrganization, " ", "")
+			asnOrg = getShortASNOrg(asnRecord.AutonomousSystemOrganization)
 		}
 	} else {
 		asnOrg = ""
 	}
 
 	return ip, country, asnOrg, err
+}
+
+func getShortASNOrg(asnOrg string) string {
+	once.Do(initShortNames)
+
+	// Convert to lowercase and remove spaces
+	asnOrg = strings.ToLower(strings.ReplaceAll(asnOrg, " ", ""))
+
+	for fullName, shortName := range shortNames {
+		if strings.Contains(asnOrg, fullName) {
+			return shortName
+		}
+	}
+
+	if len(asnOrg) > 10 {
+		return asnOrg[:10]
+	}
+	return asnOrg
 }
